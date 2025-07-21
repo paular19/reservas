@@ -37,13 +37,14 @@ export async function POST(req: NextRequest) {
         },
         auto_return: 'approved',
         metadata: {
-          nombreCompleto,
+          nombre_completo: nombreCompleto,
           email,
           unidad,
-          fechaIngreso,
-          fechaSalida,
+          fecha_ingreso: fechaIngreso,
+          fecha_salida: fechaSalida,
           telefono,
         },
+
       },
     });
 
