@@ -6,7 +6,7 @@ import { Wallet, initMercadoPago } from '@mercadopago/sdk-react';
 import { useBookingForm } from '@/hooks/useBookingForm';
 import { useMP } from '@/hooks/useMP';
 
-// Inicializa Mercado Pago
+
 initMercadoPago(process.env.NEXT_PUBLIC_MP_PUBLIC_KEY!, { locale: 'es-AR' });
 
 const Booking = () => {

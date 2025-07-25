@@ -9,6 +9,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { db } from "./firebase";
+import { obtenerBloqueosSuperpuestos, validarContraBloqueos } from './bloqueos';
 
 export type Unidad = "este" | "oeste" | "cabana" | "camping";
 export type TipoReserva = "cama_individual" | "habitacion_completa" | "cabana_completa" | "camping";
@@ -20,7 +21,7 @@ const capacidades = {
   camping: 50,
 } as const;
 
-type DatosReserva = {
+export type DatosReserva = {
   nombreCompleto: string;
   email: string;
   telefono: string;
@@ -50,6 +51,9 @@ export async function crearReservaConReglas(datos: DatosReserva) {
     desayuno,
     almuerzo,
   } = datos;
+
+  const bloqueos = await obtenerBloqueosSuperpuestos(unidad, fechaIngreso, fechaSalida);
+  validarContraBloqueos(bloqueos, cantidadPersonas);
 
   const reservasRef = collection(db, "reservas");
   const snapshot = await getDocs(reservasRef);
@@ -139,7 +143,6 @@ export async function editarReserva(id: string, datos: Partial<DatosReserva>) {
   await updateDoc(docRef, datos);
 }
 
-// Esta función se usa desde el webhook de Mercado Pago
 export async function crearReservaWebhook(data: {
   nombreCompleto: string;
   email: string;
