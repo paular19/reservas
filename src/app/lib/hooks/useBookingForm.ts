@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
+
 export type BookingFormValues = {
   nombreCompleto: string;
   email: string;
@@ -101,3 +102,5 @@ export const useBookingForm = () => {
     getTotal,
   };
 };
+
+export type BookingForm = BookingFormValues;

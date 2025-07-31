@@ -1,4 +1,4 @@
-import Booking from '@/components/booking/Booking';
+import Booking from '@/components/Booking';
 
 export default function BookingPage() {
   return <Booking />;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { crearReservaWebhook } from "../../../../../lib/reservas";
+import { crearReservaWebhook } from "../../../lib/reservas";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 
 const mp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! });

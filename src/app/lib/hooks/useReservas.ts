@@ -1,8 +1,8 @@
 // hooks/useReservas.ts
 import { useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
-import { eliminarReserva } from '../../lib/reservas';
+import { db } from '../firebase';
+import { eliminarReserva } from '../reservas';
 
 export type Reserva = {
   id: string;
