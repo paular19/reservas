@@ -63,6 +63,38 @@ export async function obtenerReservasPorUnidad(unidad: Unidad): Promise<ReservaO
   return snapshot.docs.map(mapReservaDoc);
 }
 
+export async function obtenerReservasPorRangoFechas(
+  unidad: Unidad,
+  fechaInicio: Date | string,
+  fechaFin: Date | string
+): Promise<ReservaOutput[]> {
+  // Normalizar fechas (acepta Date o string ISO)
+  const inicio = typeof fechaInicio === 'string' ? new Date(fechaInicio) : fechaInicio;
+  const fin = typeof fechaFin === 'string' ? new Date(fechaFin) : fechaFin;
+
+  // Validación de fechas
+  if (isNaN(inicio.getTime())) throw new Error("Fecha de inicio inválida");
+  if (isNaN(fin.getTime())) throw new Error("Fecha de fin inválida");
+  if (inicio > fin) throw new Error("La fecha de inicio debe ser anterior a la de fin");
+
+  try {
+    // Consulta Firestore para reservas que se superponen con el rango
+    const q = query(
+      collection(db, "reservas"),
+        where('unidad', '==', unidad),
+        where('fechaInicio', '<=', fechaFin),
+        where('fechaFin', '>=', fechaInicio)
+    );
+
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(mapReservaDoc);
+      
+  } catch (error) {
+    console.error("Error al obtener reservas por rango:", error);
+    throw new Error("No se pudieron obtener las reservas");
+  }
+}
+
 export async function crearReserva(datos: ReservaInput): Promise<ReservaOutput> {
   const docRef = await addDoc(collection(db, "reservas"), {
     ...datos,

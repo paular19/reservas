@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { validarYCrearBloqueo, obtenerBloqueos } from '@/app/lib/bloqueos';
+import { validarYCrearBloqueo, obtenerBloqueos, obtenerFechasBloqueadasPorCabana } from '@/app/lib/bloqueos';
 import type { BlockInput, BlockOutput } from '@/types/bloqueos';
 import { addDays, isBefore, isAfter, isSameDay, parseISO } from 'date-fns';
 import { toast } from 'sonner';
@@ -62,6 +62,13 @@ export function FormularioBloqueo({ onSuccess }: { onSuccess?: () => void }) {
             current.setDate(current.getDate() + 1);
           }
         });
+
+         if (form.unidad === 'cabana') {
+        const fechasCabaña = await obtenerFechasBloqueadasPorCabana();
+        fechasCabaña.forEach(f => {
+          ocupadas.push(parseISO(f));
+        });
+      }
         
         setFechasOcupadas(ocupadas);
       } catch (err) {
