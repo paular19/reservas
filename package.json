@@ -7,7 +7,8 @@
     "dev:only": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "emulators": "firebase emulators:start"
   },
   "dependencies": {
     "@mercadopago/sdk-react": "^1.0.3",
