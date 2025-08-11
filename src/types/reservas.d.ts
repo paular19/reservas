@@ -1,5 +1,5 @@
 // types/reservas.d.ts
-export type Unidad = "este" | "oeste" | "cabana" | "camping";
+export type Unidad = "cama" | "camping" | "cabana" | "este" | "oeste";
 export type TipoReserva = "cama_individual" | "habitacion_completa" | "cabana_completa" | "camping";
 
 export interface ReservaInput {

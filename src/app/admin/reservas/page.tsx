@@ -50,7 +50,7 @@ export default function PanelReservas() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reservasPorPagina = 10;
+  const reservasPorPagina = 2;
 
   useEffect(() => {
     cargarReservas();
@@ -70,7 +70,7 @@ export default function PanelReservas() {
           new Date(a.fechaIngreso).getTime() -
           new Date(b.fechaIngreso).getTime()
       );
-      setReservas(reservasValidas);
+      setReservas(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al cargar reservas");
     } finally {

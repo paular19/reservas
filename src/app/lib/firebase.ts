@@ -15,10 +15,10 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-// Conectar a emuladores locales si estamos en desarrollo
-if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-  // Firestore Emulator
-  connectFirestoreEmulator(db, "localhost", 8080);
-  // Auth Emulator
-  connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
-}
+// // Conectar a emuladores locales si estamos en desarrollo
+// if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+//   // Firestore Emulator
+//   connectFirestoreEmulator(db, "localhost", 8080);
+//   // Auth Emulator
+//   connectAuthEmulator(auth, "http://localhost:9099", { disableWarnings: true });
+// }

@@ -1,7 +1,6 @@
 import {
   collection, addDoc, getDocs, getDoc, deleteDoc,
-  updateDoc, doc, QueryDocumentSnapshot, DocumentData,
-  Timestamp, query, where
+  updateDoc, doc, QueryDocumentSnapshot, DocumentData,   startAfter, limit, Timestamp, query, where
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { 
@@ -51,10 +50,22 @@ const mapReservaDoc = (doc: QueryDocumentSnapshot<DocumentData>): ReservaOutput 
 // -----------------------------------------------
 // 3. OPERACIONES CRUD BÁSICAS
 // -----------------------------------------------
+const PAGE_SIZE = 2;
 
 export async function obtenerReservas(): Promise<ReservaOutput[]> {
   const snapshot = await getDocs(collection(db, "reservas"));
   return snapshot.docs.map(mapReservaDoc);
+}
+
+export async function obtenerReservasPaginado(lastDoc? : any): any {
+  const paginacionQuery = query (collection(db, "reservas"), 
+  ...(lastDoc ? [startAfter(lastDoc)] : []),
+    limit(PAGE_SIZE)
+  );
+  const snapshot = await getDocs(paginacionQuery);
+  
+  return snapshot.docs.map(mapReservaDoc);
+
 }
 
 export async function obtenerReservasPorUnidad(unidad: Unidad): Promise<ReservaOutput[]> {

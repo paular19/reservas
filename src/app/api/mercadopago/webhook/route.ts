@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { crearReservaWebhook } from "../../../lib/reservas";
+import { crearOcupacionWebhook } from "@/app/lib/occupations";
 import { MercadoPagoConfig, Payment } from "mercadopago";
 
 const mp = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! });
@@ -27,15 +27,23 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: "Datos incompletos" }, { status: 400 });
         }
 
-        await crearReservaWebhook({
-          nombreCompleto: metadata.nombre_completo,
-          email: metadata.email,
-          unidad: metadata.unidad,
-          fechaIngreso: metadata.fecha_ingreso,
-          fechaSalida: metadata.fecha_salida,
-          telefono: metadata.telefono,
-          pagado: true,
-        });
+    await crearOcupacionWebhook({
+      nombreCompleto: metadata.nombre_completo,
+      email: metadata.email,
+      telefono: metadata.telefono,
+      unidad: metadata.unidad,
+      fechaIngreso: metadata.fecha_ingreso,
+      fechaSalida: metadata.fecha_salida,
+      tipoOcupacion: metadata.tipo_ocupacion || 'cama_individual',
+      cantidadPersonas: metadata.cantidad_personas ? Number(metadata.cantidad_personas) : 1,
+      desayuno: metadata.desayuno === 'true' || false,
+      almuerzo: metadata.almuerzo === 'true' || false,
+      vieneDe: "reserva",
+      pagado: true,
+      codigoReserva: paymentId,  
+    });
+
+
 
         console.log("✅ Reserva guardada correctamente");
       }
